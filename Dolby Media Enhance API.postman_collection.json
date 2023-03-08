@@ -1,0 +1,1348 @@
+{
+	"info": {
+		"_postman_id": "db813aa2-0656-42c9-b67b-dd8b16415086",
+		"name": "Dolby Media Enhance API",
+		"description": "Dolby Enhance Media API\n\n[https://docs.dolby.io/media-apis/docs/quick-start-to-enhancing-media](https://docs.dolby.io/media-apis/docs/quick-start-to-enhancing-media)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10911282"
+	},
+	"item": [
+		{
+			"name": "Authenticate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{",
+							"    if(pm.response.to.have.status(200)){",
+							"        var jsonData = JSON.parse(responseBody);",
+							"        pm.collectionVariables.set(\"access_token\", jsonData.access_token);",
+							"    }",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{APP_SECRET}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{APP_KEY}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n    \"grant_type\": \"client_credentials\",\n    \"expires_in\": 1800 \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/v1/auth/token",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"v1",
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Authenticate",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n    \"grant_type\": \"client_credentials\",\n    \"expires_in\": 1800 \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"token"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Mar 2023 06:06:22 GMT"
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Method"
+						},
+						{
+							"key": "Vary",
+							"value": "Access-Control-Request-Headers"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15724800; includeSubDomains"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Credentials",
+							"value": "true"
+						},
+						{
+							"key": "X-Request-ID",
+							"value": "e7fcb4b9a50d278f05e7ee92d5b11e64@in"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 29d8d0a84da72841b950940e9ef7fc90.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P6"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "Rn-IC906hLbGiKVdki5M_S68UyBM1awjg7K0YrgmU3K_8UV4ad0FRw=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"access_token\": \"eyJ0eXAiOiJKV1QiLCJraWQiOiI1ODExQjE0RS1DQzVCLTQ4QkQtQTNEOC1DREQxQzUzQ0ZDNUMiLCJhbGciOiJSUzUxMiJ9.eyJpc3MiOiJkb2xieS5pbyIsImlhdCI6MTY3ODI1NTU4Miwic3ViIjoiN0pDdkRDOURHeHptNmF1elBoeGF2UT09Iiwib2lkIjoiZDFkYTU4NjAtZGU3ZC00ODM5LTgzZmYtMGQyOWQ5N2RmYmU3IiwiYmlkIjoiOGEzNjk1OTg4NjgzMzkwNzAxODZhMTZiZGM3ZTNlZGQiLCJhaWQiOiIzNmY5MDQyYi0yMzJmLTQ2NDItOGQwOS01OTRlMDVkZWMwNTUiLCJhdXRob3JpdGllcyI6WyJST0xFX0NVU1RPTUVSIl0sInRhcmdldCI6ImFwaSIsImV4cCI6MTY3ODI1NzM4Mn0.LB4oGsx9uEUeHOfILrefkW1ITeLBkorbBGezdc4DMkQtE6Zt7yOMxACr2d651-Ihm2nziYwgttDsAwnxvotlxA5YXqInCv0iEVy-tzYjR_TrP1Ym7bmxRY3uSvtYtClpAALlRDvHfZy0hcGvCApRuDPf0RQ-bU2Nj-epDw-v5xTf9RvRRR8gD_nHndlqWHlr2PjkZ1-6h6tVZo6VmhrdZ_o5a3Vl0pR2qIywr4r1o1f8hQoDH22NTli59SqPEvyxONiaxvaK8nubYwFXmePWrS8Ggi11OPxQNeWJ0j2cZn3flD0YE80UyyGFIYaF37H6SLJ2h4b47oEVmNDSv5djx7lInUgR_FUIfhc5EyadBg7AUAIRbVAG-c-6zrWQ6CrrBSZu7EefnfNzbQA0jHyPCVgJcIeXX4EMigAuNsRS79u5WqOJiAUAk40Xptm2yDhBJ1RxYjEs-MeM93u_HMSpiYicpuscFGtZNK7ZtGQ4EOhBf2LQLxJUerahYFtuya8-DKyzfIyObLOlPLxDArrqTIrWmHTIDUEArT7g4Qg3C0g4xv9WB5HLD-sZU_LT_oBpOY2nNvMOLLnDjr6U5OUdSSkJs32LsXUblKRUkYQmlA26OZI8_l5Z5VKSYPgthptBVInbpMX6nJcomHdesb_mlYd2c-y4-jkhdskjbEKJSFDH23\",\n    \"expires_in\": 1800,\n    \"token_type\": \"Bearer\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Create pre-signed Upload URL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{",
+							"    if(pm.response.to.have.status(200)){",
+							"        var jsonData = JSON.parse(responseBody);",
+							"        pm.collectionVariables.set(\"input_signed_url\", jsonData.url);",
+							"    }",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"{{input_file_path}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/media/input",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"media",
+						"input"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create pre-signed Upload URL",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\": \"{{input_file_path}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/media/input",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"input"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1436"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Server",
+							"value": "CloudFront"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Mar 2023 06:07:59 GMT"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "Bcrp-jf4vHcEJUg="
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "Bcrp7jrmoAMEcEw="
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 29d8d0a84da72841b950940e9ef7fc90.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P6"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "LOlP6YvtStWzipUi0UOORsjevaRcjg6Vil3XFMiFkUx-rWFwvWE3BA=="
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"url\": \"https://media-api-proxfyprug.s3-accelerate.amazonaws.com/36f9042b-232f-4642-8d09-594e05dec055/tutorials/demo/input/audio_6.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIA2N2ZL3VQBXUXDRG6%2F20230308%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230308T060759Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEIT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJHMEUCIQCrJXJjg5IWogM7%2FlpFtTP9qnIj%2FIEPoQYmcJM7Q8VAFwIgZ7MFeDYjdSf%2BW1ePb%2FljguvT4z44UoVXySceAFekClcqiwMIPRADGgw3MTY5MTAwOTE2MTYiDIloPjORysdHZA6OCyroAnx8lSlEmoSemitnsq8V1LacGSnnzFg5fs%2Fnh9%2Bki9MNpME8WTrECeifYzd4bCo8q7vN22vvSi7s3wy72RTYoaTSeHNd5YE8o8aqwyM1ygtAwr50QtaW6QQuLx1OwHM%2FVj2DhypEf7znbiMt1eX5pYsNTuowc7FIjO9nyMUSD0y1bio25U5AvTTaoWg39SDxDoeM7XrYDwdgVz8n6nX5QrWHQmF9dCKHAor%2BFdQkydLNqppH186zw043vUdxhkGBhZevi9IjEHrkYK4YsEYLkNBxt1R5Jeissh3J9nZ51j7YSAQ7IM6P1QfLpow12TOd3dQYgIRdLCRjAki%2FE4%2BXvsxhCKhZlVMaN1MQcaZHa5EkmDd5t3KFjIpYhKVpgmNOXZt7yLXvxqoPdrbSP90EvGnrBhiZj8%2BaFl3iAW7NbPe0pFvBqV7tUI%2BOuq%2BdQcnQNQJyTw2xhBHlV72qHToORHsCKc19Q%2F8LNTC9mKCgBjqdAVIMedlOYR6hYxfAIC5SuZlV3BmbDX07LvdyTun0aMcf7v8EE%2Fy4qaC%2B6ExpB%2BewfEJxZc4RvL3BDyUtPLb6HkaVC0jsCZq%2BfoPcj0KPVIGPJJ9xmaIaDcUXmIT8TbYynfU2Du6TIQEkQrteQGmS7sLKTNiVx46088LGRm%2Bs6Xqqm8A0ptstjoi%2BPmKr5k4puWkI7iId8gK7LSz6kMQ%3D&X-Amz-Signature=kjhsfkj3h4897f9dv9bvfdgkjoiijsdpf9i34545989&X-Amz-SignedHeaders=host&x-id=PutObject\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Upload file via pre-signed URL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": ""
+					}
+				},
+				"url": {
+					"raw": "{{input_signed_url}}",
+					"host": [
+						"{{input_signed_url}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Upload file via pre-signed URL",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "dolby_demo.mp3"
+							}
+						},
+						"url": {
+							"raw": "{{input_signed_url}}",
+							"host": [
+								"{{input_signed_url}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-amz-id-2",
+							"value": "dfCipvAKcqvVT9cxoW6pu6OwstC7kqzY66wlK2z/7QbeI24fJJbp/PqBvP+I4nPDHyyg3qi7cf0="
+						},
+						{
+							"key": "x-amz-request-id",
+							"value": "4V6Z9P78YVKSV1YS"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Mar 2023 06:09:03 GMT"
+						},
+						{
+							"key": "x-amz-version-id",
+							"value": "WLKHF3_HQEwbnk8kbxQArPva5IP8nMc9"
+						},
+						{
+							"key": "x-amz-expiration",
+							"value": "expiry-date=\"Fri, 10 Mar 2023 00:00:00 GMT\", rule-id=\"delete_after_1_day\""
+						},
+						{
+							"key": "x-amz-server-side-encryption",
+							"value": "AES256"
+						},
+						{
+							"key": "ETag",
+							"value": "\"cb378c4ee468828d092df9751980a448\""
+						},
+						{
+							"key": "Server",
+							"value": "AmazonS3"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 a1ace081afaa01eee6efbc2bb1e8d5ea.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P4"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "xlFfGM9qPYl6WyatDhgsCOlLhdohxWQp-omdjlxbYw8PonX22IcKaw=="
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Enhance Audio",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var body = {",
+							"    \"input\" : pm.collectionVariables.get('input_file_path'),",
+							"    \"output\" : pm.collectionVariables.get('output_file_path'),",
+							"    \"content\" : {",
+							"        \"type\" : \"studio\"",
+							"    },",
+							"    \"audio\":{",
+							"        \"loudness\":{",
+							"            \"enable\":true,",
+							"            \"dialog_intelligence\":true",
+							"        },",
+							"        \"noise\":{",
+							"            \"reduction\":{",
+							"                \"enable\":true",
+							"            }",
+							"        },",
+							"        \"speech\":{",
+							"            \"isolation\": {",
+							"                \"enable\": true,",
+							"                \"amount\": 75 ",
+							"            },",
+							"            \"sibilance\": {",
+							"                \"reduction\":{",
+							"                    \"enable\":true,",
+							"                    \"amount\":\"low\"",
+							"                }",
+							"            },",
+							"            \"plosive\": {",
+							"                \"reduction\": {",
+							"                    \"enable\": true, ",
+							"                    \"amount\": \"low\"",
+							"                }",
+							"            },",
+							"            \"click\": {",
+							"                \"reduction\": {",
+							"                    \"enable\": true, ",
+							"                    \"amount\":\"low\"",
+							"                }",
+							"            }",
+							"        }",
+							"    }",
+							"}",
+							"",
+							"console.log(body);",
+							"var body_str = JSON.stringify(body);",
+							"pm.collectionVariables.set('enhance_request_body', body_str);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", ()=>{",
+							"    if(pm.response.to.have.status(200)){",
+							"        var jsonData = JSON.parse(responseBody);",
+							"        pm.collectionVariables.set(\"job_id\", jsonData.job_id);",
+							"    }",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{enhance_request_body}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/media/enhance",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"media",
+						"enhance"
+					]
+				},
+				"description": "fine tune & improve quality: [https://docs.dolby.io/media-apis/docs/how-to-improve-audio-by-content-type](https://docs.dolby.io/media-apis/docs/how-to-improve-audio-by-content-type)"
+			},
+			"response": [
+				{
+					"name": "Enhance Audio",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{{enhance_request_body}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/media/enhance",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"enhance"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "49"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Server",
+							"value": "CloudFront"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Mar 2023 06:09:22 GMT"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "Bcr2wh7rPHcESsA="
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "Bcr2ujzmIAMEMwA="
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 29d8d0a84da72841b950940e9ef7fc90.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P6"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "R-rlJKB-AIT14S89Nho4Rxfc08xXMPFZJdH0_tWoUqyZRdm3QchwHg=="
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"job_id\": \"99faf7de-34e0-4380-bc7f-3b5321b20f49\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Check Progress Status",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"function sleep(ms) {",
+							"    return new Promise(resolve => setTimeout(resolve, ms));",
+							"}",
+							"",
+							"// stop if auth failure",
+							"if (pm.response.code !== 200) {",
+							"    console.log('Error ' + pm.response.json().detail);",
+							"    pm.collectionVariables.set('retries_used', 0);",
+							"    postman.setNextRequest(null);",
+							"    pm.expect.fail('Something went wrong.');",
+							"}",
+							"",
+							"var i = pm.collectionVariables.get('retries_used');",
+							"i++;",
+							"pm.collectionVariables.set('retries_used', i);",
+							"// print progress",
+							"var result = 'Polling count: '+i+ ', Progress: '+pm.response.json().progress+'%'+', Status: '+pm.response.json().status;",
+							"console.log(result);",
+							"",
+							"pm.test(\"Fetching progress. \" +result, async function () {",
+							"",
+							"    // stop if failed",
+							"    if (pm.response.code === 200 && pm.response.json().status == \"Failed\") {",
+							"        console.log('Conversion Failed. Stopping test.');",
+							"        pm.collectionVariables.set('retries_used', 0);",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail('Failed to process.');",
+							"    }",
+							"",
+							"    // if file process complete",
+							"    if (pm.response.code === 200 && pm.response.json().status == \"Success\") {",
+							"        console.log('File Processed');",
+							"        pm.collectionVariables.set('retries_used', 0);",
+							"        pm.expect(response.json().status).to.equal('Success');",
+							"        postman.setNextRequest();",
+							"        return;",
+							"    }",
+							"",
+							"    // exit if progress is 0% for 30 seconds after initial request",
+							"    if (pm.response.code === 200 && pm.response.json().progress == 0 && i == 4) {",
+							"        pm.collectionVariables.set('retries_used', 0);",
+							"        console.log('No progress for 15 seconds. Stopping test. Check status manually.');",
+							"        pm.expect.fail('No progress for 15 seconds. Failed.');",
+							"    }",
+							"",
+							"    // this logic will only execute once if this endpoint is manually triggered",
+							"    // if you want to poll for results while manually calling this endpoint, add a while loop",
+							"    if ((pm.response.json().progress == 0 && i < 4) || pm.response.json().progress > 0) {",
+							"        console.log('trying to call api again in ' + pm.collectionVariables.get('polling_retry_duration') + ' seconds...');",
+							"        await sleep(pm.collectionVariables.get('polling_retry_duration') * 1000);        ",
+							"        postman.setNextRequest(request.name);",
+							"    }",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/media/enhance?job_id={{job_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"media",
+						"enhance"
+					],
+					"query": [
+						{
+							"key": "job_id",
+							"value": "{{job_id}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Check Progress Status",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/media/enhance?job_id={{job_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"enhance"
+							],
+							"query": [
+								{
+									"key": "job_id",
+									"value": "{{job_id}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "81"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Server",
+							"value": "CloudFront"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Mar 2023 06:09:47 GMT"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "Bcr63jrGvHcEPng="
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "Bcr6zjmxIAMEcyQ="
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 29d8d0a84da72841b950940e9ef7fc90.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P6"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "dqbVXco84rZNhcAeXK9sKDFTYAzjMqlKxekFbRcj3LMBlTUONrH7GA=="
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"path\": \"/media/enhance\",\n    \"status\": \"Running\",\n    \"progress\": 19,\n    \"api_version\": \"v1.1.2\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Create pre-signed Download URL v1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status is 200\", ()=>{",
+							"    if(pm.response.to.have.status(200)){",
+							"        var jsonData = JSON.parse(responseBody);",
+							"        pm.collectionVariables.set(\"output_signed_url\", jsonData.url);",
+							"        console.log('download url generated...')",
+							"    }",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"url\": \"{{output_file_path}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/media/output",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"media",
+						"output"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create pre-signed Download URL v1",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"url\": \"{{output_file_path}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/media/output",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"output"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1461"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Server",
+							"value": "CloudFront"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Mar 2023 06:13:39 GMT"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "BcsfAjU_vHcEPaQ="
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "Bcse-hHiIAMEYeQ="
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 29d8d0a84da72841b950940e9ef7fc90.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P6"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "IVbrfTZoyfEVZmn-MrJLwREUD7XQ8SP_BLpyOcf3jtC-yWlvjs0PLw=="
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"url\": \"https://media-api-proxfyprug.s3-accelerate.amazonaws.com/36f9042b-232f-4642-8d09-594e05dec055/tutorials/demo/output/audio_6.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIA2N2ZL3VQH77LJHDM%2F20230308%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230308T061338Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEIb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLXdlc3QtMiJGMEQCHwlF9wIuKkcibTXPkzwK9oBm128wgoIPh6VZzODpYdsCIQD9h5JOEBjtsCSlGsZARe307KSr8PxOwTHVLsclwkhvaiqLAwg%2FEAMaDDcxNjkxMDA5MTYxNiIMpec9uQ5f1y5xgcgnKugCyExMPn2RBAPZN3%2FB7DMdCibcCitokvyhOVAXBMAeKSG4w4k0xXCX9ruR6rG719qtpfrakORKGvic9mG8JPgjbohm0Dv56RwatUrd6red6hBo7wk0zj2Uadp1YChlPKoJbfDqgStxV9ncE2rpHIm1WzCK%2Bh9yujJ74RpHj9Hv5%2Fqq%2FJxicyC5BImVSO%2BHyzokNecZMARvpD1bibdnHOCzSt9nGJ5qMCw0b99XpYHDkStmmVXBWQBrTqLsnV1u2CjsGS%2FSU%2BOwnmwFSgxzgfNqeClKuv0Q%2BTYHYw5H6iwp3vLcxZ%2B3dNk%2BH%2FfjNHNlI15KNQm8%2F66ADjw5sQWKWxPtNZZ63lbLHzQuP81NhAaZ%2Bzu4UirLmbkxgttw13jzcFReVU14DzeQgIeQcnmuVCx2g7xdZWWIFGcaWgrVP%2FYP3bh0E22Z%2FUSaY2%2BVMl3aIsLpp4mFMzzy8%2Fr%2Bnhe43wT95ibuYylY9M4IMP%2FIoKAGOp4BuLGJmd%2BwG5fVwLUWu2DULNuVfwVhWFOHW2RTfE4klhQalQ52gGWwzSfjZSiqyIBK1DbbZJmm0IdRG1peQ6e%2FTLcFR4jv70VclbjIh1F3lkG6q0jOss07aVb67l%2FgurRh%2B2%2F%2BJAEOyBgTyB0%2BUkApv%2Bi2qt7H0DLaG%2F0vvzVyyYESSipkk009i%2BTTy27O%2Fknj7K8HC4%2FuFPsut8vcAfw%3D&X-Amz-Signature=454340144e3f697550c0adb3e7873c4774cf3dcefee543a2e0d54a4f117fsd34&X-Amz-SignedHeaders=host&x-id=GetObject\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Download via pre-signed URL",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{output_signed_url}}",
+					"host": [
+						"{{output_signed_url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Jobs",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/media/jobs",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"media",
+						"jobs"
+					],
+					"query": [
+						{
+							"key": "submitted_after",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "submitted_before",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "status",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "next_token",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Jobs",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/media/jobs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "submitted_after",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "submitted_before",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "next_token",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15620"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Server",
+							"value": "CloudFront"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Mar 2023 06:14:13 GMT"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "BcsjzhsyvHcES7w="
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "BcsjwjYJIAMEa9Q="
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 29d8d0a84da72841b950940e9ef7fc90.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P6"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "tOR7jZH6Nekv3lLthPdabNef6fGRIJbhw_vLcOVdm0ztC7Qi7MSJKg=="
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"count\": 2,\n    \"jobs\": [\n        {\n            \"job_id\": \"39ba0db5-3639-40bb-b8a3-2327eceaf5aa\",\n            \"api_version\": \"v1.1.2\",\n            \"path\": \"/media/enhance\",\n            \"status\": \"Success\",\n            \"progress\": 100,\n            \"duration\": 70.426,\n            \"time_submitted\": \"2023-03-08T06:11:02.235Z\",\n            \"time_started\": \"2023-03-08T06:11:02.000Z\",\n            \"time_completed\": \"2023-03-08T06:11:48.561Z\",\n            \"expiry\": \"2023-04-08T06:11:02.000Z\"\n        },\n        {\n            \"job_id\": \"bg83b630-368e-4de8-89ea-6646asd6186c\",\n            \"api_version\": \"v1.1.2\",\n            \"path\": \"/media/enhance\",\n            \"status\": \"Failed\",\n            \"progress\": 5,\n            \"time_submitted\": \"2023-03-08T06:06:38.735Z\",\n            \"time_started\": \"2023-03-08T06:06:38.000Z\",\n            \"time_completed\": \"2023-03-08T06:07:33.231Z\",\n            \"expiry\": \"2023-04-08T06:06:38.000Z\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Media Usage",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/media/usage",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"media",
+						"usage"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Media Usage",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/media/usage",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"usage"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "127"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Server",
+							"value": "CloudFront"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Mar 2023 06:15:56 GMT"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "Bcs0Gh4mvHcESaw="
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "Bcs0DjBpIAMEa-g="
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 29d8d0a84da72841b950940e9ef7fc90.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P6"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "BaU57vJXlNIouRXWy-frk2b9HNA4FnisO1X-Q5bFkfbSxpAhJcqJOQ=="
+						},
+						{
+							"key": "Vary",
+							"value": "Origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"items\": [\n        {\n            \"date\": \"2023-03-08T00:00:00.000Z\",\n            \"usage\": [\n                {\n                    \"jobs\": 2,\n                    \"succeeded\": 1,\n                    \"failed\": 1,\n                    \"path\": \"/media/enhance\"\n                }\n            ]\n        }\n    ],\n    \"count\": 1\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "APP_KEY",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "APP_SECRET",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "https://api.dolby.com"
+		},
+		{
+			"key": "input_file_path",
+			"value": "dlb://tutorials/demo/input/audio_1.mp3",
+			"type": "string"
+		},
+		{
+			"key": "output_file_path",
+			"value": "dlb://tutorials/demo/output/audio_1.mp3",
+			"type": "string"
+		},
+		{
+			"key": "input_signed_url",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "output_signed_url",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "enhance_request_body",
+			"value": ""
+		},
+		{
+			"key": "job_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "polling_retry_duration",
+			"value": "10",
+			"type": "string"
+		},
+		{
+			"key": "retries_used",
+			"value": "0",
+			"type": "string"
+		}
+	]
+}
