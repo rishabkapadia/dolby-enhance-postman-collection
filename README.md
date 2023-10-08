@@ -26,12 +26,14 @@ Data & Request URL required for reuqests are dynamically set via collection vari
 
 ## Collection Runner
 
-1. Click Collection -> Run -> Untick last 3 Requests
-2. Open the 'Console' on bottom left, to see debug info.
-3. Click 'Run' on Right pane. 
-4. Once the process is done, go to 'Download via pre-signed URL' request and click 'Send' request.
-5. Playable embeded audio file will be visible in the response pane. 
-6. Click 'Save Response' -> Click 'Save to a file'
+1. Click Collection on left panel
+2. Click Run on top right under Enviornment selection dropdown
+3. Untick last 3 Requests
+4. Open the 'Console' on bottom left, to see debug info.
+5. Click 'Run' on Right pane. 
+6. Once the process is done, go to 'Download via pre-signed URL' request and click 'Send' request.
+7. Playable embeded audio file will be visible in the response pane. 
+8. Click 'Save Response' -> Click 'Save to a file'
 
 ## Job Result Polling
 
