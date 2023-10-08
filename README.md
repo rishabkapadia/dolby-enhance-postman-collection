@@ -12,10 +12,10 @@ Data & Request URL required for reuqests are dynamically set via collection vari
 2. Get API_KEY, API_SECRET
 3. Go to Collection -> Add Credentails in Postman Collection variables & confirm other variable values (Sensible defaults have been set)
 4. Click 'settings' gear icon on top right -> Settings
-5. Scroll to bottom -> Note the file path
-6. Paste a audio file (.mp3) in that directory
+5. Scroll down to 'Working Directory' section -> Note the file path
+6. Close the window and Paste a audio file (.mp3) in that directory
 7. Open 'Upload file via pre-signed URL' request on left pane
-8. Click 'Select File' under body tab and select the .mp3 file
+8. Click 'Select File' under 'Body' tab and select the .mp3 file
 
 ## Set Variable Values
 
