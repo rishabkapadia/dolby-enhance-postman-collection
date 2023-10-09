@@ -37,7 +37,7 @@ Data & Request URL required for reuqests are dynamically set via collection vari
 
 ## Job Result Polling
 
-Once you 'Run' the collection, at 'Check Progress Status' request, it will keep polling every 10 seconds (for a total minimum of 30 seconds) and prints the result so you don't have to manually call the endpoint to check it. NOTE: Sometimes it takes more than 30 seconds for the job to change it's status from Pending to Running. In such cases you will need to update the collection variable 'polling_retries_every_10s' to 4 (meaning it will poll for 4 times - taking 40 seconds instead of default 3 times taking 30 seconds).
+Once you 'Run' the collection, at 'Check Progress Status' request, it will keep polling every 10 seconds (for a total minimum of 30 seconds) and prints the result so you don't have to manually call the endpoint to check it. NOTE: Sometimes it takes more than 30 seconds for the job to change it's status from Pending to Running. In such cases you will need to update the collection variable 'polling_retries' to 4 (meaning it will poll for 4 times - taking 40 seconds instead of default 3 times taking 30 seconds).
 
 ## Documentation
 
