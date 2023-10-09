@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "db813aa2-0656-42c9-b67b-dd8b16415086",
+		"_postman_id": "3db8b2d1-d68d-4111-b613-d7f3f660d29b",
 		"name": "Dolby Media Enhance API",
 		"description": "Dolby Enhance Media API\n\n[https://docs.dolby.io/media-apis/docs/quick-start-to-enhancing-media](https://docs.dolby.io/media-apis/docs/quick-start-to-enhancing-media)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -14,10 +14,13 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", ()=>{",
+							"pm.test(\"status is 200\", ()=>{",
 							"    if(pm.response.to.have.status(200)){",
 							"        var jsonData = JSON.parse(responseBody);",
 							"        pm.collectionVariables.set(\"access_token\", jsonData.access_token);",
+							"",
+							"        // enable below line if you are storing access_token in environment variable.",
+							"        // pm.environment.set(\"access_token\", jsonData.access_token);",
 							"    }",
 							"})"
 						],
@@ -188,7 +191,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", ()=>{",
+							"pm.test(\"status is 200\", ()=>{",
 							"    if(pm.response.to.have.status(200)){",
 							"        var jsonData = JSON.parse(responseBody);",
 							"        pm.collectionVariables.set(\"input_signed_url\", jsonData.url);",
@@ -308,19 +311,6 @@
 		},
 		{
 			"name": "Upload file via pre-signed URL",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", () => {",
-							"  pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -330,7 +320,7 @@
 				"body": {
 					"mode": "file",
 					"file": {
-						"src": ""
+						"src": "dolby_demo.mp3"
 					}
 				},
 				"url": {
@@ -432,6 +422,8 @@
 					"listen": "prerequest",
 					"script": {
 						"exec": [
+							"// improve quality: https://docs.dolby.io/media-apis/docs/how-to-improve-audio-by-content-type",
+							"",
 							"var body = {",
 							"    \"input\" : pm.collectionVariables.get('input_file_path'),",
 							"    \"output\" : pm.collectionVariables.get('output_file_path'),",
@@ -486,7 +478,7 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", ()=>{",
+							"pm.test(\"status is 200\", ()=>{",
 							"    if(pm.response.to.have.status(200)){",
 							"        var jsonData = JSON.parse(responseBody);",
 							"        pm.collectionVariables.set(\"job_id\", jsonData.job_id);",
@@ -518,8 +510,7 @@
 						"media",
 						"enhance"
 					]
-				},
-				"description": "fine tune & improve quality: [https://docs.dolby.io/media-apis/docs/how-to-improve-audio-by-content-type](https://docs.dolby.io/media-apis/docs/how-to-improve-audio-by-content-type)"
+				}
 			},
 			"response": [
 				{
@@ -626,54 +617,60 @@
 							"    return new Promise(resolve => setTimeout(resolve, ms));",
 							"}",
 							"",
-							"// stop if auth failure",
-							"if (pm.response.code !== 200) {",
-							"    console.log('Error ' + pm.response.json().detail);",
-							"    pm.collectionVariables.set('retries_used', 0);",
-							"    postman.setNextRequest(null);",
-							"    pm.expect.fail('Something went wrong.');",
-							"}",
+							"pm.test(\"Fetch file progress status\", async function () {     ",
 							"",
-							"var i = pm.collectionVariables.get('retries_used');",
-							"i++;",
-							"pm.collectionVariables.set('retries_used', i);",
-							"// print progress",
-							"var result = 'Polling count: '+i+ ', Progress: '+pm.response.json().progress+'%'+', Status: '+pm.response.json().status;",
-							"console.log(result);",
+							"    var i = pm.collectionVariables.get('retries_used');",
+							"    ",
+							"    // stop if auth failure",
+							"    if(pm.response.code !== 200){",
+							"        console.log('Error '+pm.response.json().detail);",
+							"        pm.collectionVariables.set('retries_used', 0);",
+							"        postman.setNextRequest(null);",
+							"        pm.expect.fail('Something went wrong.');",
+							"        return;",
+							"    }",
 							"",
-							"pm.test(\"Fetching progress. \" +result, async function () {",
+							"    // print progress",
+							"    console.log('Retry count: '+i+ ', Progress: '+pm.response.json().progress+'%'+', Status: '+pm.response.json().status);",
 							"",
 							"    // stop if failed",
-							"    if (pm.response.code === 200 && pm.response.json().status == \"Failed\") {",
+							"    if(pm.response.code === 200 && pm.response.json().status == \"Failed\"){",
 							"        console.log('Conversion Failed. Stopping test.');",
 							"        pm.collectionVariables.set('retries_used', 0);",
 							"        postman.setNextRequest(null);",
 							"        pm.expect.fail('Failed to process.');",
+							"        return;",
 							"    }",
-							"",
-							"    // if file process complete",
-							"    if (pm.response.code === 200 && pm.response.json().status == \"Success\") {",
+							"    ",
+							"    // return if success",
+							"    if(pm.response.code === 200 && pm.response.json().status == \"Success\"){",
 							"        console.log('File Processed');",
 							"        pm.collectionVariables.set('retries_used', 0);",
-							"        pm.expect(response.json().status).to.equal('Success');",
+							"        pm.expect(response.json().status).to.equal('success');",
 							"        postman.setNextRequest();",
 							"        return;",
 							"    }",
 							"",
-							"    // exit if progress is 0% for 30 seconds after initial request",
-							"    if (pm.response.code === 200 && pm.response.json().progress == 0 && i == 4) {",
+							"    // exit if progress is 0% for 30 seconds",
+							"    if (pm.response.code === 200 && pm.response.json().progress == 0 && i == pm.collectionVariables.get('polling_retries')) {",
+							"    // if(pm.response.code === 200 && i == 2){",
 							"        pm.collectionVariables.set('retries_used', 0);",
-							"        console.log('No progress for 15 seconds. Stopping test. Check status manually.');",
-							"        pm.expect.fail('No progress for 15 seconds. Failed.');",
+							"        var total_seconds = pm.collectionVariables.get('polling_retries') * 10;",
+							"        console.log('No progress for ' + total_seconds + ' seconds. Stopping test. Check status manually.');",
+							"        postman.setNextRequest(null);",
+							"        return;",
 							"    }",
 							"",
-							"    // this logic will only execute once if this endpoint is manually triggered",
+							"    // retry logic every 10 seconds",
+							"    // this logic will only execute while running the collection",
 							"    // if you want to poll for results while manually calling this endpoint, add a while loop",
-							"    if ((pm.response.json().progress == 0 && i < 4) || pm.response.json().progress > 0) {",
-							"        console.log('trying to call api again in ' + pm.collectionVariables.get('polling_retry_duration') + ' seconds...');",
-							"        await sleep(pm.collectionVariables.get('polling_retry_duration') * 1000);        ",
+							"    if((pm.response.json().progress == 0 && i < 3) || pm.response.json().progress > 0){",
+							"        console.log('trying to call api again in '+ pm.collectionVariables.get('polling_retry_duration') +' seconds...');            ",
+							"        await sleep(pm.collectionVariables.get('polling_retry_duration')*1000);",
+							"        i++;",
+							"        pm.collectionVariables.set('retries_used', i);",
 							"        postman.setNextRequest(request.name);",
-							"    }",
+							"    }       ",
 							"});",
 							""
 						],
@@ -1341,6 +1338,11 @@
 		},
 		{
 			"key": "retries_used",
+			"value": "0",
+			"type": "string"
+		},
+		{
+			"key": "polling_retries",
 			"value": "0",
 			"type": "string"
 		}
