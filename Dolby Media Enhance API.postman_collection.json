@@ -1343,7 +1343,7 @@
 		},
 		{
 			"key": "polling_retries",
-			"value": "0",
+			"value": "3",
 			"type": "string"
 		}
 	]
